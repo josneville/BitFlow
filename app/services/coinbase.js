@@ -21,7 +21,7 @@ module.exports = {
 						amount: amount,
 						currency: "USD"
 					}, function (err, txn) {
-						if (err) return cb(err)
+						// if (err) return cb(err)
 						return cb()
 					})
 				})
