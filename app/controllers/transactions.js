@@ -15,10 +15,9 @@ module.exports = {
 		var user = res.locals.user
 
 		knex('transactions')
-			.join('users', function () {
-				this.on('transactions.from_id', '=', 'users.id').orOn('transactions.to_id', '=', 'users.id')
-			})
-			.select('users.facebook_id', 'users.picture', 'users.name', 'transactions.amount', 'transactions.message')
+			.join('users as from', 'from.id', 'transactions.from_id')
+      .join('users as to', 'to.id', 'transactions.to_id')
+			.select('from.facebook_id', 'from.picture', 'from.name', 'to.facebook_id', 'to.picture', 'to.name', 'transactions.amount', 'transactions.message')
 			.then(function (rows) {
 				res.status(200).send({
 					transactions: rows
