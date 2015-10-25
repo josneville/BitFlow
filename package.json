@@ -24,6 +24,7 @@
     "knex-schema": "~2.1.0",
     "morgan": "~1.6.1",
     "pg": "~4.4.3",
+    "stripe": "^4.0.0",
     "superagent": "~1.4.0"
   }
 }
