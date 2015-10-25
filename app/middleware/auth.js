@@ -15,8 +15,25 @@ module.exports = {
 				.where({
 					facebook_id: body.id
 				})
-				.map(function(row){
-					return res.status(200).send({row: row})
+				.then(function(rows){
+					if (rows.length === 0) {
+						return knex('users').insert({
+							facebook_id: body.id,
+							email: body.email,
+							name: body.name
+						})
+					}
+					res.locals.user = rows[0]
+					return next()
+				})
+				.then(function(){
+					return knex('users').where({
+						facebook_id: body.id
+					})
+				})
+				.then(function(rows){
+					res.locals.user = rows[0]
+					return next()
 				})
 				.catch(function(err){
 					return next(err)
