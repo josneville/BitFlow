@@ -26,6 +26,7 @@ module.exports= {
     var user = res.locals.user
     var toUser = res.locals.toUser
 
+    console.log(req.body)
     var amount = req.body.amount
     var password = config.password //req.body.password
     var message = req.body.message
