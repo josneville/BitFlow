@@ -24,7 +24,7 @@ module.exports = {
 						})
 					}
 					res.locals.user = rows[0]
-					return next()
+					next()
 				})
 				.then(function(){
 					return knex('users').where({
@@ -33,10 +33,10 @@ module.exports = {
 				})
 				.then(function(rows){
 					res.locals.user = rows[0]
-					return next()
+					next()
 				})
 				.catch(function(err){
-					return next(err)
+					next(err)
 				})
 		})
 	}
