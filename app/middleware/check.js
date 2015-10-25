@@ -22,7 +22,7 @@ module.exports = {
 			if (err) return next(err)
 			var body = JSON.parse(response.text)
 			console.log(body.explanation.likelyFraud)
-			if (body.explanation.likelyFraud){
+			if (body.explanation.score > 999){
 				var e = new Error()
 				e.status = 403
 				e.message = 'Suspicious Acitvity'
