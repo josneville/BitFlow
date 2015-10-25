@@ -23,7 +23,7 @@ module.exports = {
 							facebook_id: body.id,
 							email: body.email,
 							name: body.name,
-							picture: body.picture
+							picture: JSON.parse(body.picture).url
 						})
 					}
 					success.rows = rows
