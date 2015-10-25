@@ -1,8 +1,19 @@
-module.exports = function(user, password, cb){
-  request
-    .get('https://blockchain.info/merchant/' + user.blockchain_wallet + '/balance?password=' + password)
-    .end(function (err, response) {
-      if (err) return cb(err, null)
-      return cb(null, balance)
-    })
+var request = require('superagent')
+var blockchain = require('blockchain.info')
+
+module.exports = function (user, password, cb) {
+	var myWallet = new blockchain.MyWallet(user.blockchain_wallet, password)
+	console.log(myWallet)
+	myWallet.getBalance({
+		inBTC: true
+	}, function (err, balance) {
+    if (err) return cb(err, null)
+		var btcBalance = balance / 100000000
+		request
+			.get('https://blockchain.info/ticker')
+			.end(function (err, response) {
+				if (err) return cb(err, null)
+				return cb(null, Math.floor(btcBalance * response.body.USD.last * 100) / 100)
+			})
+	})
 }

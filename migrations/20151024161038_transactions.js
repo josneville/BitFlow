@@ -5,7 +5,6 @@ exports.up = function(knex, Promise) {
     table.integer('to_id').references('users.id')
     table.float('amount')
     table.string('message')
-    table.string('type')
     table.timestamps()
   })
 };

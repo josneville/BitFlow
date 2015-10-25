@@ -1,6 +1,11 @@
 var config = require('../../config')
 var knex = require('knex')({client: 'postgresql', connection: config.postgres})
 
+var getBalance = require('../services/balance')
+var sendMoney = require('../services/sendMoney')
+
+var coinbase = require('../services/coinbase')
+
 module.exports= {
   get: function(req, res, next){
     var user = res.locals.user
@@ -20,7 +25,23 @@ module.exports= {
     	})
   },
   create: function(req, res, next){
-    var userId = req.body.userId
-    
+    var user = res.locals.user
+    var toUser = res.locals.toUser
+
+    var amount = req.body.amount
+    var password = req.body.password
+
+    sendMoney(user, password, toUser, amount, function(err, response){
+      if (err) return next(err)
+      if (response.error){
+        coinbase.buy(amount, toUser, function(err){
+          if (err) return next(err)
+          return res.status(200).send({})
+        })
+      }
+      else {
+        res.status(200).send({})
+      }
+    })
   }
 }
