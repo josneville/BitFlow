@@ -3,11 +3,11 @@ var knex = require('knex')({client: 'postgresql', connection: config.postgres})
 
 module.exports = {
   findToUser: function(req, res, next){
-    var id = req.params.id
+    var facebook_id = req.params.facebook_id
 
     knex('users')
       .where({
-        id: id
+        facebook_id: facebook_id
       })
       .then(function(rows){
         if (rows.length === 0) {

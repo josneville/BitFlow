@@ -9,5 +9,5 @@ module.exports = function(app) {
 	app.post('/users/withdraw', middleware.auth.isLoggedIn, controllers.users.withdraw)
 
 	app.get('/users/transactions', middleware.auth.isLoggedIn, controllers.transactions.get)
-	app.post('/users/transactions/:id', middleware.auth.isLoggedIn, middleware.transactions.findToUser, middleware.check.checkFraud, controllers.transactions.create)
+	app.post('/users/transactions/:facebook_id', middleware.auth.isLoggedIn, middleware.transactions.findToUser, middleware.check.checkFraud, controllers.transactions.create)
 }
