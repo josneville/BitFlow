@@ -30,15 +30,21 @@ module.exports= {
     var password = config.password //req.body.password
     var message = req.body.message
 
+    console.log("Before send Money")
     sendMoney(user, password, toUser, amount, message, function(err, response){
+      console.log("Hi 1")
       if (err) return next(err)
+      console.log("Hi 2")
       if (response.error){
+        console.log("Hi 3")
         coinbase.buyAndTransfer(amount, toUser, function(err){
+          console.log("Hi 4")
           if (err) return next(err)
           return res.status(200).send({})
         })
       }
       else {
+        console.log("hi 5")
         res.status(200).send({})
       }
     })
