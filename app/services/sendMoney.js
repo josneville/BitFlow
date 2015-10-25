@@ -33,22 +33,4 @@ module.exports = function (from, password, to, amount, message, cb) {
 					})
 			})
 		})
-
-	// function check() {
-	// 	var user = res.locals.user
-	// 	var auth = 'Basic ' + new Buffer(config.FEEDZAI_KEY + ':').toString('base64');
-
-	// 	request
-	// 		.post('https://api.feedzai.com/v1/payments')
-	// 			.send({ 
-	// 				user_id: user.id,
-	// 				name: user.name,
-	// 				amount: 10 
-	// 			})
-	// 			.set('Authorization', auth)
-	// 			.set('Content-Type', 'application/json')
-	// 		.end(function(err, response){
-
-	// 		})
-	// }
 }
