@@ -9,7 +9,7 @@ module.exports = {
 		request
 		.get('https://graph.facebook.com/me?fields=id,email,name&access_token=' + facebook_token)
 		.end(function(err, response){
-		    if (err) return next(err)
+		  if (err) return next(err)
 			var body = JSON.parse(response.text)
 			knex('users')
 				.where({
