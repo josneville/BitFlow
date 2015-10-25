@@ -19,6 +19,7 @@ module.exports = {
 				})
 				.then(function(rows){
 					if (rows.length === 0) {
+						console.log(JSON.parse(body.picture))
 						return knex('users').insert({
 							facebook_id: body.id,
 							email: body.email,
