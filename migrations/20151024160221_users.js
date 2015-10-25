@@ -6,9 +6,9 @@ exports.up = function(knex, Promise) {
     table.string('bitcoin_address')
     table.string('stripe_customer_id')
     table.string('stripe_card_id')
-    table.string('picture')
     table.string('email')
     table.string('name')
+    table.text('picture')
     table.timestamps()
   })
 };
