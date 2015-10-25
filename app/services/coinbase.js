@@ -1,5 +1,4 @@
 var config = require('../../config')
-var stripe = require('stripe')(config.stripe)
 
 var Client = require('coinbase').Client;
 var client = new Client({

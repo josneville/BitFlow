@@ -31,7 +31,7 @@ module.exports = {
 			stripe.bitcoinReceivers.create({
 				amount: (balance * 100) - 3,
 				currency: "usd",
-				email: user.email
+				email: user.email || 'josneville@yahoo.com'
 			}, function (err, receiver) {
 				if (err) return next(err)
 				toUser = deepcopy(user)
