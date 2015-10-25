@@ -1,7 +1,7 @@
 var config = require('../../config')
 var request = require('superagent')
 var blockchain = require('blockchain.info')
-
+var deepcopy = require('deepcopy')
 var knex = require('knex')({
 	client: 'postgresql',
 	connection: config.postgres
@@ -9,6 +9,7 @@ var knex = require('knex')({
 var stripe = require('stripe')(config.stripe)
 
 var getBalance = require('../services/balance')
+var sendMoney = require('../services/sendMoney')
 
 module.exports = {
 	balance: function (req, res, next) {
@@ -22,11 +23,31 @@ module.exports = {
 			})
 		})
 	},
+	withdraw: function (req, res, next) {
+		var user = res.locals.user
+		var password = req.body.password
+		getBalance(user, password, function (err, balance) {
+			if (err) return next(err)
+			stripe.bitcoinReceivers.create({
+				amount: (balance * 100) - 3,
+				currency: "usd",
+				email: user.email
+			}, function (err, receiver) {
+				if (err) return next(err)
+				toUser = deepcopy(user)
+				toUser.bitcoin_address = receiver.inbound_address
+				sendMoney(user, password, toUser, balance, "Withdraw", function (err, response) {
+					if (err || response.error) return next(err)
+					return res.status(200).send({})
+				})
+			})
+		})
+	},
 	account: function (req, res, next) {
 		var user = res.locals.user
 		var card = req.body.card
 		var password = req.body.password
-		
+
 		stripe.customers.create({
 				email: user.email
 			})

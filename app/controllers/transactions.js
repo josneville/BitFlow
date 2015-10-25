@@ -30,11 +30,12 @@ module.exports= {
 
     var amount = req.body.amount
     var password = req.body.password
+    var message = req.body.message
 
-    sendMoney(user, password, toUser, amount, function(err, response){
+    sendMoney(user, password, toUser, amount, message, function(err, response){
       if (err) return next(err)
       if (response.error){
-        coinbase.buy(amount, toUser, function(err){
+        coinbase.buyAndTransfer(amount, toUser, function(err){
           if (err) return next(err)
           return res.status(200).send({})
         })

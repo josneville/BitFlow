@@ -3,12 +3,11 @@ var blockchain = require('blockchain.info')
 
 module.exports = function (user, password, cb) {
 	var myWallet = new blockchain.MyWallet(user.blockchain_wallet, password)
-	console.log(myWallet)
 	myWallet.getBalance({
 		inBTC: true
 	}, function (err, balance) {
     if (err) return cb(err, null)
-		var btcBalance = balance / 100000000
+		var btcBalance = ((balance) / 100000000)
 		request
 			.get('https://blockchain.info/ticker')
 			.end(function (err, response) {

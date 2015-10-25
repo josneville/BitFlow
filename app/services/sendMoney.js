@@ -13,7 +13,7 @@ module.exports = function (from, password, to, amount, message, cb) {
 			var myWallet = new blockchain.MyWallet(from.blockchain_wallet, password)
 			myWallet.send({
 				to: to.bitcoin_address,
-				amount: String(Math.round(btcBalance * 100000000)),
+				amount: String(Math.round((btcBalance) * 100000000) - 10000),
 				BTC: true
 			}, function (err, response) {
 				if (err) return cb(err, null)
@@ -25,10 +25,10 @@ module.exports = function (from, password, to, amount, message, cb) {
 						message: message
 					})
 					.then(function(){
-						cb()
+						cb(null, response)
 					})
 					.catch(function(err){
-						cb(err)
+						cb(err, null)
 					})
 			})
 		})
