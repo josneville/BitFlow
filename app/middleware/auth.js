@@ -1,4 +1,7 @@
+var config = require('../../config')
 var request = require('superagent')
+
+var knex = require('knex')({client: 'postgresql', connection: config.postgres})
 
 module.exports = {
 	isLoggedIn: function(req, res, next) {
