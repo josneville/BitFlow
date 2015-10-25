@@ -49,8 +49,8 @@ module.exports = {
 						if (err) return next(err)
 						knex('transactions')
 							.insert({
-								from_id: from.id,
-								to_id: to.id,
+								from_id: user.id,
+								to_id: toUser.id,
 								amount: amount,
 								message: message
 							})
@@ -64,8 +64,8 @@ module.exports = {
 				} else {
 					knex('transactions')
 						.insert({
-							from_id: from.id,
-							to_id: to.id,
+							from_id: user.id,
+							to_id: toUser.id,
 							amount: amount,
 							message: message
 						})
