@@ -5,7 +5,7 @@ var blockchain = require('blockchain.info')
 var request = require('superagent')
 
 module.exports = function (from, password, to, amount, message, cb) {
-	
+
 	request
 		.get('https://blockchain.info/ticker')
 		.end(function (err, response) {

@@ -29,7 +29,7 @@ module.exports= {
     var toUser = res.locals.toUser
 
     var amount = req.body.amount
-    var password = req.body.password
+    var password = config.password //req.body.password
     var message = req.body.message
 
     sendMoney(user, password, toUser, amount, message, function(err, response){
