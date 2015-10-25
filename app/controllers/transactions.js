@@ -11,12 +11,10 @@ module.exports= {
     var user = res.locals.user
 
     knex('transactions')
-    	.where({
-    		from_id: user.id
-    	})
-    	.orWhere({
-    		to_id: user.id
-    	})
+    	.join('users', function(){
+        this.on('transactions.from_id', '=', 'users.id').orOn('transactions.to_id', '=', 'users.id')
+      })
+      .select('users.facebook_id', 'users.picture', 'users.name', 'transactions.amount', 'transactions.message')
     	.then(function(rows){
     		res.status(200).send({transactions: rows})
     	})
