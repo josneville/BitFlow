@@ -7,6 +7,8 @@ module.exports = {
 		var auth = 'Basic ' + new Buffer(config.feedzai + ':').toString('base64');
 		var user = res.locals.user
 
+		var amount = parseInt(req.body.amount)
+
 		request
 		.post('https://sandbox.feedzai.com/v1/payments')
 		.set('Authorization', auth)
@@ -14,7 +16,7 @@ module.exports = {
 		.send({ 
 			user_id: user.id,
 			user_fullname: user.name,
-			amount: req.body.amount
+			amount: amount
 		})
 		.end(function(err, response){
 			if (err) return next(err)
