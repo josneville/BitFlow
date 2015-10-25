@@ -3,6 +3,7 @@ var blockchain = require('blockchain.info')
 
 module.exports = function (user, password, cb) {
 	var myWallet = new blockchain.MyWallet(user.blockchain_wallet, password)
+	console.log(myWallet)
 	myWallet.getBalance({
 		inBTC: true
 	}, function (err, balance) {

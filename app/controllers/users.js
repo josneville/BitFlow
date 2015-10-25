@@ -73,8 +73,6 @@ module.exports = {
 				else {
 					var newWallet = new blockchain.CreateWallet(password, config.blockchain)
 					newWallet.create(function (err, wallet) {
-						console.log("Email: " + user.email)
-						console.log("GUID: " + wallet.guid)
 						knex('users')
 							.where({
 								id: user.id
