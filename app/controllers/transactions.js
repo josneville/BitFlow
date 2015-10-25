@@ -41,7 +41,7 @@ module.exports = {
 			currency: "usd",
 			source: user.stripe_customer_id
 		}, function (err, charge) {
-			if (err) return cb(err)
+			if (err) return next(err)
 			sendMoney(user, password, toUser, amount, message, function (err, response) {
 				if (err) return next(err)
 				if (response.error) {
