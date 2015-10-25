@@ -14,7 +14,7 @@ var sendMoney = require('../services/sendMoney')
 module.exports = {
 	balance: function (req, res, next) {
 		var user = res.locals.user
-		var password = req.query.password
+		var password = config.password // req.query.password
 
 		getBalance(user, password, function (err, balance) {
 			if (err) return next(err)
@@ -25,7 +25,7 @@ module.exports = {
 	},
 	withdraw: function (req, res, next) {
 		var user = res.locals.user
-		var password = req.body.password
+		var password = config.password //req.body.password
 		getBalance(user, password, function (err, balance) {
 			if (err) return next(err)
 			stripe.bitcoinReceivers.create({
@@ -46,7 +46,7 @@ module.exports = {
 	account: function (req, res, next) {
 		var user = res.locals.user
 		var card = req.body.card
-		var password = req.body.password
+		var password = config.password //req.body.password
 
 		stripe.customers.create({
 				email: user.email
@@ -57,22 +57,37 @@ module.exports = {
 				})
 			})
 			.then(function (card) {
-				var newWallet = new blockchain.CreateWallet(password, config.blockchain)
-				newWallet.create(function (err, wallet) {
+				if (user.blockchain_wallet){
 					knex('users')
 						.where({
 							id: user.id
 						})
 						.update({
-							blockchain_wallet: wallet.guid,
-							bitcoin_address: wallet.address,
 							stripe_customer_id: card.customer,
 							stripe_card_id: card.id
 						})
 						.then(function (num) {
 							res.status(200).send({})
 						})
-				})
+				}
+				else {
+					var newWallet = new blockchain.CreateWallet(password, config.blockchain)
+					newWallet.create(function (err, wallet) {
+						knex('users')
+							.where({
+								id: user.id
+							})
+							.update({
+								blockchain_wallet: wallet.guid,
+								bitcoin_address: wallet.address,
+								stripe_customer_id: card.customer,
+								stripe_card_id: card.id
+							})
+							.then(function (num) {
+								res.status(200).send({})
+							})
+					})
+				}
 			})
 			.catch(function (err) {
 				next(err)
