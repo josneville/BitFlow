@@ -18,19 +18,7 @@ module.exports = function (from, password, to, amount, message, cb) {
 				BTC: true
 			}, function (err, response) {
 				if (err) return cb(err, null)
-				knex('transactions')
-					.insert({
-						from_id: from.id,
-						to_id: to.id,
-						amount: amount,
-						message: message
-					})
-					.then(function(){
-						cb(null, response)
-					})
-					.catch(function(err){
-						cb(err, null)
-					})
+				return cb(null, response)
 			})
 		})
 }

@@ -47,10 +47,34 @@ module.exports = {
 				if (response.error) {
 					coinbase.buyAndTransfer(amount, toUser, function (err) {
 						if (err) return next(err)
-						return res.status(200).send({})
+						knex('transactions')
+							.insert({
+								from_id: from.id,
+								to_id: to.id,
+								amount: amount,
+								message: message
+							})
+							.then(function(){
+								res.status(200).send({})
+							})
+							.catch(function(err){
+								next(err)
+							})
 					})
 				} else {
-					res.status(200).send({})
+					knex('transactions')
+						.insert({
+							from_id: from.id,
+							to_id: to.id,
+							amount: amount,
+							message: message
+						})
+						.then(function(){
+							res.status(200).send({})
+						})
+						.catch(function(err){
+							next(err)
+						})
 				}
 			})
 		})

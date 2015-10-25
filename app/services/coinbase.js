@@ -15,13 +15,13 @@ module.exports = {
 					amount: amount,
 					currency: "USD"
 				}, function (err, xfer) {
-					// if (err) return cb(err)
+					if (err) return cb(err)
 					account.sendMoney({
 						to: toUser.bitcoin_address,
 						amount: amount,
 						currency: "USD"
 					}, function (err, txn) {
-						// if (err) return cb(err)
+						if (err) return cb(err)
 						return cb()
 					})
 				})
