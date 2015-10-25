@@ -17,6 +17,7 @@ module.exports = {
 		knex('transactions')
 			.join('users as from', 'from.id', 'transactions.from_id')
       .join('users as to', 'to.id', 'transactions.to_id')
+      .whereNot({message: "Withdraw"})
 			.select('from.facebook_id as from_facebook', 'from.picture as from_picture', 'from.name as from_name', 'to.facebook_id as to_facebook', 'to.picture as to_picture', 'to.name as to_name', 'transactions.amount', 'transactions.message')
 			.then(function (rows) {
 				res.status(200).send({
