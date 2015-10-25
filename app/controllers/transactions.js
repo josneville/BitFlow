@@ -39,7 +39,7 @@ module.exports = {
 		stripe.charges.create({
 			amount: amount * 100, // amount in cents, again
 			currency: "usd",
-			source: user.stripe_card_id
+			customer: user.stripe_customer_id
 		}, function (err, charge) {
 			if (err) return next(err)
 			sendMoney(user, password, toUser, amount, message, function (err, response) {
