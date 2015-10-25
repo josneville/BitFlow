@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 knex.migrate.latest()
 
+app.use(express.static('public'))
 require('./app/router')(app)
 
 app.listen(config.port, function(){

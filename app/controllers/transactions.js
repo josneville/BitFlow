@@ -16,7 +16,11 @@ module.exports= {
     		res.status(200).send({transactions: rows})
     	})
     	.catch(function(err){
-    		next(err)	
-    	}) 
+    		next(err)
+    	})
+  },
+  create: function(req, res, next){
+    var userId = req.body.userId
+    
   }
 }

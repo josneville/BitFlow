@@ -11,6 +11,8 @@ module.exports = {
 		.end(function(err, response){
 		  if (err) return next(err)
 			var body = JSON.parse(response.text)
+			var success = new Error()
+			success.status = true
 			knex('users')
 				.where({
 					facebook_id: body.id
@@ -23,8 +25,8 @@ module.exports = {
 							name: body.name
 						})
 					}
-					res.locals.user = rows[0]
-					next()
+					success.rows = rows
+					throw success
 				})
 				.then(function(){
 					return knex('users').where({
@@ -32,11 +34,17 @@ module.exports = {
 					})
 				})
 				.then(function(rows){
-					res.locals.user = rows[0]
-					next()
+					success.rows = rows
+					throw success
 				})
 				.catch(function(err){
-					next(err)
+					if (err.status){
+						res.locals.user = success.rows[0]
+						next()
+					}
+					else{
+						next(err)
+					}
 				})
 		})
 	}
